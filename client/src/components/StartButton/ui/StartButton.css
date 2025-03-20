@@ -1,0 +1,22 @@
+/* Кнопка "Старт" */
+.start-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #4caf50; /* Зеленый цвет */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #45a049; /* Темно-зеленый при наведении */
+  transform: scale(1.05);
+}
+
+.start-button:disabled {
+  background-color: #ccc; /* Серый цвет при отключении */
+  cursor: not-allowed;
+}

@@ -1,0 +1,17 @@
+/* Кнопка сброса */
+.reset-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #ff4d4d;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.reset-button:hover {
+  background-color: #ff1a1a;
+  transform: scale(1.05); /* Небольшой эффект увеличения при наведении */
+}

@@ -1,0 +1,16 @@
+.brain-ring-container {
+  display: grid;
+  grid-template-columns: 480px 1fr; /* Левая панель (логи) и основной контент */
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; /* Фон для всего контейнера */
+}
+
+/* Основной контент */
+.main-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff; /* Фон для основного контента */
+}

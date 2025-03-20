@@ -1,0 +1,29 @@
+/* Блок для логов */
+.log-panel {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ddd; /* Граница справа */
+  overflow-y: auto; /* Прокрутка только по вертикали */
+}
+
+.log-panel h2 {
+  margin-top: 0;
+  font-size: 18px;
+  color: #333;
+  text-align: center; /* Выровняем заголовок по центру */
+}
+
+.log-list {
+  margin-top: 10px;
+  max-height: calc(100vh - 150px); /* Ограничиваем высоту блока */
+  overflow-y: auto; /* Включаем прокрутку только если нужно */
+}
+
+.log-item {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap; /* Предотвращаем перенос текста */
+  overflow: hidden; /* Скрываем лишний текст */
+  text-overflow: ellipsis; /* Добавляем многоточие при переполнении */
+}

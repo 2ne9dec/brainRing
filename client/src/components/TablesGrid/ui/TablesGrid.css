@@ -1,0 +1,63 @@
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 150px); /* Строгая сетка из 4 столбцов */
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.table-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.table {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.table.highlighted {
+  transform: scale(1.1);
+  background-color: #ffebf0;
+  border-color: #ff4d4d;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+}
+
+.table-top {
+  width: 80%;
+  height: 20px;
+  background-color: #333;
+  border-radius: 4px 4px 0 0;
+}
+
+.table-leg {
+  width: 10px;
+  height: 30px;
+  background-color: #333;
+  position: absolute;
+  bottom: 0;
+}
+
+.left-leg {
+  left: 20px;
+}
+
+.right-leg {
+  right: 20px;
+}
+
+.table-number {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+  text-align: center; /* Выровняем текст по центру */
+}
