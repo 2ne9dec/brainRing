@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { playSound } from "../../../utils/soundUtils";
 import startSoundPath from "../../../shared/sound/start-sound.mp3";
 import tickSoundPath from "../../../shared/sound/tick-sound.mp3";
 
