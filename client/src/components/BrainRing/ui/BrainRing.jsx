@@ -26,33 +26,6 @@ export const BrainRing = () => {
     });
   }, []);
 
-  const handleWebSocketMessage = useCallback((data) => {
-    try {
-      switch (data.type) {
-        case "highlight":
-          updateTableState(data.table, true);
-          stopTimer();
-          break;
-        case "reset":
-          updateTableState(data.table, false);
-          break;
-        case "initialState":
-          setHighlightedTables((prev) => {
-            const updatedTables = data.tables
-              .filter((t) => t.type === "highlight")
-              .map((t) => t.table);
-            return updatedTables;
-          });
-          break;
-        default:
-          addLog(`Неизвестный тип сообщения: ${data.type}`);
-      }
-    } catch (error) {
-      console.error("Ошибка при обработке WebSocket сообщения:", error);
-      addLog("Ошибка при разборе сообщения WebSocket");
-    }
-  }, []);
-
   const updateTableState = useCallback(
     (table, isHighlighted) => {
       setHighlightedTables((prev) => {
@@ -68,7 +41,37 @@ export const BrainRing = () => {
         return updatedTables;
       });
     },
-    [addLog, playSound]
+    [addLog]
+  );
+
+  const handleWebSocketMessage = useCallback(
+    (data) => {
+      try {
+        switch (data.type) {
+          case "highlight":
+            updateTableState(data.table, true);
+            stopTimer();
+            break;
+          case "reset":
+            updateTableState(data.table, false);
+            break;
+          case "initialState":
+            setHighlightedTables((prev) => {
+              const updatedTables = data.tables
+                .filter((t) => t.type === "highlight")
+                .map((t) => t.table);
+              return updatedTables;
+            });
+            break;
+          default:
+            addLog(`Неизвестный тип сообщения: ${data.type}`);
+        }
+      } catch (error) {
+        console.error("Ошибка при обработке WebSocket сообщения:", error);
+        addLog("Ошибка при разборе сообщения WebSocket");
+      }
+    },
+    [addLog, stopTimer, updateTableState]
   );
 
   const wsUrl = "ws://localhost:8080";
@@ -84,7 +87,7 @@ export const BrainRing = () => {
     } else {
       console.warn("WebSocket не готов к отправке сообщения.");
     }
-  }, [addLog]);
+  }, [addLog, wsRef]);
 
   const handleStartButtonClick = useCallback(() => {
     if (isTimerRunning) {

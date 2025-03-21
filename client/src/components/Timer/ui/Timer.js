@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import startSoundPath from "../../../shared/sound/start-sound.mp3";
 import tickSoundPath from "../../../shared/sound/tick-sound.mp3";
 
@@ -40,7 +40,7 @@ export const useTimer = () => {
     }, 1000);
   };
 
-  const stopTimer = () => {
+  const stopTimer = useCallback(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       setIsTimerRunning(false);
@@ -55,7 +55,7 @@ export const useTimer = () => {
       tickSoundRef.current.pause();
       tickSoundRef.current.currentTime = 0;
     }
-  };
+  }, []);
 
   useEffect(() => {
     return () => {
