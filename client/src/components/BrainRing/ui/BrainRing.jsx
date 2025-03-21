@@ -8,7 +8,7 @@ import { StartButton } from "../../StartButton";
 import { playSound } from "../../../utils/soundUtils";
 import clickSoundPath from "../../../shared/sound/click-sound.mp3";
 import { getFormattedTime } from "../../../utils/timeUtils";
-import "./BrainRing.css";
+import "./BrainRing.scss";
 
 export const BrainRing = () => {
   const tables = useMemo(

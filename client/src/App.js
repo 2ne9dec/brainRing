@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { BrainRing } from "./components/BrainRing/";
 
 function App() {

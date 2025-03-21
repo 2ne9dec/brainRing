@@ -1,4 +1,4 @@
-import "./ResetButton.css";
+import "./ResetButton.scss";
 
 export const ResetButton = ({ onClick }) => {
   return (

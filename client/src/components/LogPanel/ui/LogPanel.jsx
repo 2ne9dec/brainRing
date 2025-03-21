@@ -1,4 +1,4 @@
-import "./LogPanel.css";
+import "./LogPanel.scss";
 
 export const LogPanel = ({ logs }) => {
   return (

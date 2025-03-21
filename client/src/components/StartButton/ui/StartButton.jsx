@@ -1,4 +1,4 @@
-import "./StartButton.css";
+import "./StartButton.scss";
 
 export const StartButton = ({ isTimerRunning, remainingTime, onClick }) => {
   return (

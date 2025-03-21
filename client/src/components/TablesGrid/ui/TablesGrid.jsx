@@ -1,4 +1,4 @@
-import "./TablesGrid.css";
+import "./TablesGrid.scss";
 
 export const TablesGrid = ({ tables, highlightedTables }) => {
   return (
