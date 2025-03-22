@@ -4,14 +4,14 @@ import tickSoundPath from "../../../shared/sound/tick-sound.mp3";
 
 export const useTimer = () => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [remainingTime, setRemainingTime] = useState(10);
+  const [remainingTime, setRemainingTime] = useState(30); // Начальное значение 30
   const timerRef = useRef(null);
   const tickSoundRef = useRef(null);
   const startSoundRef = useRef(null);
 
   const startTimer = () => {
     setIsTimerRunning(true);
-    setRemainingTime(10);
+    setRemainingTime(30); // Установлено значение 30
 
     if (!startSoundRef.current) {
       startSoundRef.current = new Audio(startSoundPath);
@@ -28,6 +28,13 @@ export const useTimer = () => {
         if (prevTime === 1) {
           clearInterval(timerRef.current);
           setIsTimerRunning(false);
+
+          // Останавливаем тикание часов при окончании времени
+          if (tickSoundRef.current) {
+            tickSoundRef.current.pause();
+            tickSoundRef.current.currentTime = 0;
+          }
+
           return 0;
         }
 
@@ -44,7 +51,7 @@ export const useTimer = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       setIsTimerRunning(false);
-      setRemainingTime(10);
+      setRemainingTime(30); // Установлено значение 30 при сбросе
     }
 
     if (startSoundRef.current) {

@@ -34,28 +34,44 @@ export const BrainRing = () => {
         return updatedTables;
       });
 
-      if (isHighlighted) {
+      if (isHighlighted && isTimerRunning) {
         addLog(`Подсвечиваем стол: ${table}`);
         playSound(clickSoundPath);
       }
     },
-    [addLog]
+    [addLog, isTimerRunning]
   );
 
   // Обработка сообщений WebSocket
   const handleHighlightMessage = useCallback(
     (data) => {
-      updateTableState(data.table, true);
+      const { table } = data;
+
+      // Всегда логируем нажатие кнопки
+      addLog(`Стол ${table} нажал кнопку`);
+
+      // Подсветка работает только при запущенном таймере
+      if (!isTimerRunning) {
+        // Убрано логирование "Подсветка заблокирована"
+        return;
+      }
+
+      updateTableState(table, true);
       stopTimer();
     },
-    [updateTableState, stopTimer]
+    [updateTableState, stopTimer, isTimerRunning, addLog]
   );
 
   const handleResetMessage = useCallback(
     (data) => {
+      if (!isTimerRunning) {
+        // Убрано логирование "Сброс столов заблокирован"
+        return;
+      }
+
       updateTableState(data.table, false);
     },
-    [updateTableState]
+    [updateTableState, isTimerRunning]
   );
 
   const handleInitialStateMessage = useCallback((data) => {
