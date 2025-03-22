@@ -1,6 +1,7 @@
+import { memo } from "react";
 import "./LogPanel.scss";
 
-export const LogPanel = ({ logs }) => {
+export const LogPanel = memo(({ logs }) => {
   return (
     <div className="log-panel">
       <h2>Логи</h2>
@@ -13,4 +14,4 @@ export const LogPanel = ({ logs }) => {
       </div>
     </div>
   );
-};
+});

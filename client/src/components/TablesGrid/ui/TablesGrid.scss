@@ -1,63 +1,105 @@
 .tables-grid {
   display: grid;
-  grid-template-columns: repeat(4, 150px); /* Строгая сетка из 4 столбцов */
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr); /* 4 стола в ряду */
+  gap: 20px; /* Расстояние между столами */
+  width: 100%;
+  max-width: 800px; /* Ограничение ширины */
   margin-top: 20px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr); /* 3 стола в ряду */
+  }
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr); /* 2 стола в ряду */
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; /* 1 стол в ряду */
+  }
 }
 
 .table-container {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 100%; /* Занимает всю доступную ширину */
+  aspect-ratio: 1 / 1; /* Сохраняем квадратную форму */
+  background-color: #1a2537; /* Фон контейнера */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05); /* Увеличиваем при наведении */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .table {
   width: 100%;
   height: 100%;
-  border: 2px solid #ccc;
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #fff;
-  transition: transform 0.3s ease, background-color 0.3s ease,
-    box-shadow 0.3s ease;
+  background: linear-gradient(145deg, #2c3e50, #1a2537);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0)
+    );
+    transform: rotate(45deg);
+    animation: rotateShine 5s infinite linear;
+  }
+
+  &.highlighted {
+    border: 2px solid #ff4d4d;
+    box-shadow: 0 0 20px rgba(255, 77, 77, 0.5);
+    background: linear-gradient(145deg, #ff6b6b, #ff4d4d);
+  }
 }
 
-.table.highlighted {
-  transform: scale(1.1);
-  background-color: #ffebf0;
-  border-color: #ff4d4d;
-  box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
-}
-
-.table-top {
-  width: 80%;
-  height: 20px;
-  background-color: #333;
-  border-radius: 4px 4px 0 0;
-}
-
-.table-leg {
-  width: 10px;
-  height: 30px;
-  background-color: #333;
-  position: absolute;
-  bottom: 0;
-}
-
-.left-leg {
-  left: 20px;
-}
-
-.right-leg {
-  right: 20px;
+@keyframes rotateShine {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .table-number {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #333;
-  text-align: center; /* Выровняем текст по центру */
+  font-size: 18px;
+  font-weight: 600;
+  color: #e0e0e0; /* Мягкий светло-серый текст */
+  text-align: center;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    font-size: 14px; /* Меньший шрифт для маленьких экранов */
+  }
+}
+
+.table-base {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 10px;
+  background: linear-gradient(180deg, #ffffff1a, #ffffff0a);
+  border-radius: 5px;
 }

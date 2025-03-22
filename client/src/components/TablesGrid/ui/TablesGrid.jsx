@@ -1,6 +1,7 @@
+import { memo } from "react";
 import "./TablesGrid.scss";
 
-export const TablesGrid = ({ tables, highlightedTables }) => {
+export const TablesGrid = memo(({ tables, highlightedTables }) => {
   return (
     <div className="tables-grid">
       {tables.map((tableNumber) => (
@@ -19,4 +20,4 @@ export const TablesGrid = ({ tables, highlightedTables }) => {
       ))}
     </div>
   );
-};
+});

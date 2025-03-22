@@ -1,40 +1,33 @@
 * {
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
+  padding: 0;
+  margin: 0;
+  border: 0;
 }
+
 *,
 *:before,
 *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 :focus,
 :active {
-  // outline: none;
-}
-a:focus,
-a:active {
-  // outline: none;
-}
-aside,
-nav,
-footer,
-header,
-section {
-  display: block;
+  outline: none;
 }
 
 html,
 body {
   height: 100%;
-}
-body {
+  font-family: "Poppins", sans-serif;
   line-height: 1;
-  font-family: "Montserrat", sans-serif;
-  //text-rendering: optimizeLegibility;
-  -ms-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
+  background-color: #0a192f;
+  color: #ffffff;
+
+  @media (max-width: 768px) {
+    font-size: 14px; /* Меньший базовый шрифт */
+  }
+}
+
+button {
+  cursor: pointer;
 }

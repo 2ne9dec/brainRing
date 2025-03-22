@@ -1,29 +1,63 @@
-/* Блок для логов */
 .log-panel {
   padding: 20px;
-  background-color: #f9f9f9;
-  border-right: 1px solid #ddd; /* Граница справа */
-  overflow-y: auto; /* Прокрутка только по вертикали */
+  background: linear-gradient(145deg, #1a2537, #2c3e50);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+
+  @media (max-width: 992px) {
+    height: auto; /* Автоматическая высота на маленьких экранах */
+    max-height: 200px; /* Ограничиваем высоту */
+  }
 }
 
 .log-panel h2 {
-  margin-top: 0;
-  font-size: 18px;
-  color: #333;
-  text-align: center; /* Выровняем заголовок по центру */
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 15px;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 18px; /* Меньший шрифт заголовка */
+  }
 }
 
 .log-list {
-  margin-top: 10px;
-  max-height: calc(100vh - 150px); /* Ограничиваем высоту блока */
-  overflow-y: auto; /* Включаем прокрутку только если нужно */
+  max-height: calc(100% - 50px);
+  overflow-y: auto;
 }
 
 .log-item {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-size: 14px;
-  color: #555;
-  white-space: nowrap; /* Предотвращаем перенос текста */
-  overflow: hidden; /* Скрываем лишний текст */
-  text-overflow: ellipsis; /* Добавляем многоточие при переполнении */
+  color: #e0e0e0; /* Мягкий светло-серый текст */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: fadeIn 0.5s ease-in-out;
+
+  @media (max-width: 768px) {
+    font-size: 12px; /* Меньший шрифт для логов */
+  }
+}
+
+/* Стилизация полосы прокрутки */
+::-webkit-scrollbar {
+  width: 8px; /* Ширина полосы прокрутки */
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5; /* Цвет фона полосы прокрутки */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #004673; /* Глубокий синий цвет для "бегунка" */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #434242; /* Темно-серый цвет при наведении */
 }
