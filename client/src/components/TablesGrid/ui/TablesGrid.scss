@@ -3,7 +3,7 @@
   grid-template-columns: repeat(4, 1fr); /* 4 стола в ряду */
   gap: 20px; /* Расстояние между столами */
   width: 100%;
-  // max-width: 800px; /* Ограничение ширины */
+  max-width: 930px; /* Ограничение ширины */
   margin-top: 20px;
 
   @media (max-width: 1200px) {
