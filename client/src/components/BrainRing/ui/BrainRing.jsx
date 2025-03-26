@@ -3,14 +3,15 @@ import { useWebSocket } from "../../../hooks/useWebSocket";
 import { useTimer } from "../../Timer";
 import { LogPanel } from "../../LogPanel";
 import { TablesGrid } from "../../TablesGrid";
-import { ResetButton } from "../../ResetButton";
-import { StartButton } from "../../StartButton";
 import { playSound } from "../../../utils/soundUtils";
 import { getFormattedTime } from "../../../utils/timeUtils";
+import { HeaderSection } from "../../HeaderSection";
+import { useBrainRingWebSocket } from "../../../hooks/useBrainRingWebSocket";
 import clickSoundPath from "../../../shared/sound/click-sound.mp3";
 import "./BrainRing.scss";
 
 export const BrainRing = () => {
+  const wsUrl = "ws://localhost:8080";
   const tables = Array.from({ length: 12 }, (_, index) => index + 1);
   const [highlightedTables, setHighlightedTables] = useState([]);
   const [logs, setLogs] = useState([]);
@@ -42,78 +43,16 @@ export const BrainRing = () => {
     [addLog, isTimerRunning]
   );
 
-  // Обработка сообщений WebSocket
-  const handleHighlightMessage = useCallback(
-    (data) => {
-      const { table } = data;
-
-      // Всегда логируем нажатие кнопки
-      addLog(`Стол ${table} нажал кнопку`);
-
-      // Подсветка работает только при запущенном таймере
-      if (!isTimerRunning) {
-        // Убрано логирование "Подсветка заблокирована"
-        return;
-      }
-
-      updateTableState(table, true);
-      stopTimer();
-    },
-    [updateTableState, stopTimer, isTimerRunning, addLog]
+  const handleMessage = useBrainRingWebSocket(
+    wsUrl,
+    isTimerRunning,
+    addLog,
+    updateTableState,
+    stopTimer,
+    setHighlightedTables
   );
 
-  const handleResetMessage = useCallback(
-    (data) => {
-      if (!isTimerRunning) {
-        // Убрано логирование "Сброс столов заблокирован"
-        return;
-      }
-
-      updateTableState(data.table, false);
-    },
-    [updateTableState, isTimerRunning]
-  );
-
-  const handleInitialStateMessage = useCallback((data) => {
-    setHighlightedTables((prev) => {
-      const updatedTables = data.tables
-        .filter((t) => t.type === "highlight")
-        .map((t) => t.table);
-      return updatedTables;
-    });
-  }, []);
-
-  const handleWebSocketMessage = useCallback(
-    (data) => {
-      try {
-        switch (data.type) {
-          case "highlight":
-            handleHighlightMessage(data);
-            break;
-          case "reset":
-            handleResetMessage(data);
-            break;
-          case "initialState":
-            handleInitialStateMessage(data);
-            break;
-          default:
-            addLog(`Неизвестный тип сообщения: ${data.type}`);
-        }
-      } catch (error) {
-        console.error("Ошибка при обработке WebSocket сообщения:", error);
-        addLog("Ошибка при разборе сообщения WebSocket");
-      }
-    },
-    [
-      addLog,
-      handleHighlightMessage,
-      handleResetMessage,
-      handleInitialStateMessage,
-    ]
-  );
-
-  const wsUrl = "ws://localhost:8080";
-  const wsRef = useWebSocket(wsUrl, handleWebSocketMessage);
+  const wsRef = useWebSocket(wsUrl, handleMessage);
 
   // Сброс всех столов
   const resetAllTables = useCallback(() => {
@@ -153,19 +92,12 @@ export const BrainRing = () => {
     <div className="brain-ring-container">
       <LogPanel logs={logs} />
       <div className="main-content">
-        {/* Заголовок и кнопки */}
-        <div className="header-section">
-          <h1>Брейн-ринг: Телеметрия столов</h1>
-          <div className="button-group">
-            <ResetButton onClick={resetAllTables} />
-            <StartButton
-              isTimerRunning={isTimerRunning}
-              remainingTime={remainingTime}
-              onClick={handleStartButtonClick}
-            />
-          </div>
-        </div>
-        {/* Сетка столов */}
+        <HeaderSection
+          onReset={resetAllTables}
+          onStartButtonClick={handleStartButtonClick}
+          isTimerRunning={isTimerRunning}
+          remainingTime={remainingTime}
+        />
         <TablesGrid tables={tables} highlightedTables={highlightedTables} />
       </div>
     </div>

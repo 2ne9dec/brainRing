@@ -4,7 +4,6 @@
   gap: 20px; /* Расстояние между столами */
   width: 100%;
   max-width: 930px; /* Ограничение ширины */
-  margin-top: 20px;
 
   @media (max-width: 1200px) {
     grid-template-columns: repeat(3, 1fr); /* 3 стола в ряду */

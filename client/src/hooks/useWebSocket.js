@@ -8,11 +8,8 @@ export const useWebSocket = (url, handleMessage) => {
     const maxReconnectAttempts = 10;
     const reconnectInterval = 5000;
 
-    let isConnected = false; // Флаг для отслеживания состояния соединения
-
     const connect = () => {
-      if (isConnected) return; // Защита от повторного вызова
-      isConnected = true;
+      if (wsRef.current) return;
 
       const ws = new WebSocket(url);
       wsRef.current = ws;
@@ -25,7 +22,9 @@ export const useWebSocket = (url, handleMessage) => {
       ws.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
-          handleMessage(data);
+          if (typeof data === "object") {
+            handleMessage(data);
+          }
         } catch (error) {
           console.error("Failed to parse WebSocket message:", event.data);
         }
@@ -37,26 +36,12 @@ export const useWebSocket = (url, handleMessage) => {
 
       ws.onclose = () => {
         console.log("WebSocket closed");
-        isConnected = false; // Сброс флага при закрытии соединения
 
-        if (wsRef.current === ws) {
-          wsRef.current = null;
-
-          if (reconnectAttemptsRef.current < maxReconnectAttempts) {
-            reconnectAttemptsRef.current++;
-            console.log(
-              `Попытка переподключения (${
-                reconnectAttemptsRef.current
-              }/${maxReconnectAttempts}) через ${
-                reconnectInterval / 1000
-              } секунд...`
-            );
-            setTimeout(connect, reconnectInterval);
-          } else {
-            console.error(
-              "Превышено максимальное количество попыток переподключения."
-            );
-          }
+        if (reconnectAttemptsRef.current < maxReconnectAttempts) {
+          reconnectAttemptsRef.current++;
+          setTimeout(connect, reconnectInterval * reconnectAttemptsRef.current); // Экспоненциальная пауза
+        } else {
+          console.error("Max reconnection attempts reached.");
         }
       };
     };
@@ -65,12 +50,11 @@ export const useWebSocket = (url, handleMessage) => {
 
     return () => {
       if (wsRef.current) {
-        console.log("Cleaning up WebSocket connection...");
         wsRef.current.close();
         wsRef.current = null;
       }
     };
-  }, [url, handleMessage]); // Зависимости остаются неизменными
+  }, [url, handleMessage]);
 
   return wsRef;
 };

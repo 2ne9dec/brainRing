@@ -1,0 +1,64 @@
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column; /* Кнопки под заголовком на маленьких экранах */
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 24px; /* Меньший шрифт на маленьких экранах */
+  }
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    flex-direction: row; /* Кнопки в одну строку */
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+.start-button,
+.reset-button {
+  padding: 10px 20px; /* Уменьшаем размер кнопок */
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    filter: brightness(1.1); /* Легкий эффект при наведении */
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 16px; /* Еще меньше на маленьких экранах */
+    font-size: 14px;
+  }
+}
+
+.start-button {
+  background-color: #4caf50; /* Зеленый цвет для кнопки "Старт" */
+  color: #ffffff;
+}
+
+.reset-button {
+  background-color: #f44336; /* Красный цвет для кнопки "Сброс" */
+  color: #ffffff;
+}
