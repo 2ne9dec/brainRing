@@ -1,12 +1,19 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.scss";
 
-const rootElement = document.getElementById("root");
-if (!rootElement) {
-  console.error("Root element not found!");
-} else {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(<App />);
+const container = document.getElementById("root");
+
+if (!container) {
+  throw new Error("Контейнер root не найден. Не удалось вмонтировать реакт приложение");
 }
+
+const root = createRoot(container);
+
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);

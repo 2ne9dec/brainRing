@@ -1,5 +1,5 @@
-import "./App.scss";
 import { BrainRing } from "./components/BrainRing/";
+import "./App.scss";
 
 function App() {
   return (

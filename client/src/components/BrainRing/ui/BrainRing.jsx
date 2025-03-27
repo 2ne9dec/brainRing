@@ -1,4 +1,6 @@
-import { useState, useCallback, useMemo } from "react";
+// BrainRing.js
+
+import React, { useState, useCallback, useMemo } from "react";
 import { useWebSocket } from "../../../hooks/useWebSocket";
 import { useTimer } from "../../Timer";
 import { LogPanel } from "../../LogPanel";
@@ -9,14 +11,26 @@ import { HeaderSection } from "../../HeaderSection";
 import { resetAllTablesLogic } from "../../../utils/resetAllTablesLogic";
 import { createGameControls } from "../../../utils/createGameControls";
 import { createMessageHandlers } from "../../../utils/createMessageHandlers";
+import { useTableScores } from "../../../hooks/useTableScores";
+import { tableNames } from "../../../config/tableConfig";
+import { QuestionsPage } from "../../QuestionsPage";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import clickSoundPath from "../../../shared/sound/click-sound.mp3";
 import "./BrainRing.scss";
 
 export const BrainRing = () => {
   const wsUrl = "ws://localhost:8080";
+  const navigate = useNavigate();
+
+  // Загружаем currentQuestionId из localStorage или используем 1 по умолчанию
+  const [logs, setLogs] = useState([]);
+  const [currentQuestionId, setCurrentQuestionId] = useState(() => {
+    const savedId = localStorage.getItem("currentQuestionId");
+    return savedId ? parseInt(savedId, 10) : 1;
+  });
+
   const tables = Array.from({ length: 12 }, (_, index) => index + 1);
   const [highlightedTables, setHighlightedTables] = useState([]);
-  const [logs, setLogs] = useState([]);
   const { isTimerRunning, remainingTime, startTimer, stopTimer } = useTimer();
 
   // Логирование событий
@@ -27,22 +41,26 @@ export const BrainRing = () => {
     });
   }, []);
 
+  // Управление счётом
+  const { scores, incrementScore, decrementScore, updateScore, resetScores } = useTableScores(
+    tables.length
+  );
+
   // Обновление состояния столов
   const updateTableState = useCallback(
     (table, isHighlighted) => {
       setHighlightedTables((prev) => {
-        const updatedTables = isHighlighted
-          ? [...prev, table]
-          : prev.filter((t) => t !== table);
+        const updatedTables = isHighlighted ? [...prev, table] : prev.filter((t) => t !== table);
         return updatedTables;
       });
 
       if (isHighlighted && isTimerRunning) {
-        addLog(`Подсвечиваем стол: ${table}`);
+        addLog(`${tableNames[table]} подсветил стол`);
         playSound(clickSoundPath);
+        navigate("/");
       }
     },
-    [addLog, isTimerRunning]
+    [addLog, isTimerRunning, navigate]
   );
 
   // Мемоизация обработчика сообщений WebSocket
@@ -65,17 +83,25 @@ export const BrainRing = () => {
 
   // Сброс всех столов
   const resetAllTables = useCallback(() => {
-    resetAllTablesLogic(wsRef, setHighlightedTables, setLogs, addLog);
-  }, [wsRef, setHighlightedTables, setLogs, addLog]);
+    resetAllTablesLogic(wsRef, setHighlightedTables, setLogs, addLog, resetScores);
+  }, [wsRef, setHighlightedTables, setLogs, addLog, resetScores]);
 
   // Создание игровых элементов управления
-  const { handleStartButtonClick } = createGameControls(
-    isTimerRunning,
-    startTimer,
-    stopTimer,
-    resetAllTables,
-    addLog
+  const { handleStartButtonClick } = useMemo(
+    () => createGameControls(isTimerRunning, startTimer, stopTimer, resetAllTables, addLog),
+    [isTimerRunning, startTimer, stopTimer, resetAllTables, addLog]
   );
+
+  // Переключение на страницу с вопросами
+  const goToQuestionsPage = (id = currentQuestionId) => {
+    setCurrentQuestionId(id);
+    localStorage.setItem("currentQuestionId", id); // Сохраняем в localStorage
+    navigate(`/questions/${id}`);
+  };
+
+  const goToTablesPage = () => {
+    navigate("/");
+  };
 
   return (
     <div className="brain-ring-container">
@@ -87,7 +113,51 @@ export const BrainRing = () => {
           isTimerRunning={isTimerRunning}
           remainingTime={remainingTime}
         />
-        <TablesGrid tables={tables} highlightedTables={highlightedTables} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <TablesGrid
+                  tables={tables}
+                  highlightedTables={highlightedTables}
+                  scores={scores}
+                  incrementScore={incrementScore}
+                  decrementScore={decrementScore}
+                  updateScore={updateScore}
+                />
+                <div className="navigation-button-container">
+                  <button onClick={() => goToQuestionsPage(currentQuestionId)}>
+                    Перейти к вопросу №{currentQuestionId}
+                  </button>
+                </div>
+              </>
+            }
+          />
+          <Route
+            path="/questions/:questionId"
+            element={
+              <>
+                <QuestionsPage
+                  currentQuestionId={currentQuestionId}
+                  onNextQuestion={(nextId) => {
+                    setCurrentQuestionId(nextId);
+                    localStorage.setItem("currentQuestionId", nextId); // Сохраняем в localStorage
+                    navigate(`/questions/${nextId}`);
+                  }}
+                  onPreviousQuestion={(prevId) => {
+                    setCurrentQuestionId(prevId);
+                    localStorage.setItem("currentQuestionId", prevId); // Сохраняем в localStorage
+                    navigate(`/questions/${prevId}`);
+                  }}
+                />
+                <div className="navigation-button-container">
+                  <button onClick={goToTablesPage}>Перейти к столам</button>
+                </div>
+              </>
+            }
+          />
+        </Routes>
       </div>
     </div>
   );
