@@ -1,9 +1,4 @@
-export const resetAllTablesLogic = (
-  wsRef,
-  setHighlightedTables,
-  setLogs,
-  addLog
-) => {
+export const resetAllTablesLogic = (wsRef, setHighlightedTables, setLogs, addLog) => {
   const ws = wsRef.current;
   if (!ws || ws.readyState !== WebSocket.OPEN) {
     console.warn("WebSocket не готов к отправке сообщения.");

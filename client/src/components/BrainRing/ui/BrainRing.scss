@@ -30,3 +30,37 @@
     padding: 10px; /* Уменьшаем отступы на маленьких экранах */
   }
 }
+
+.navigation-button-container {
+  display: flex;
+  justify-content: center; /* Центрирование кнопки по горизонтали */
+  margin-top: 20px; /* Отступ сверху */
+}
+
+.navigation-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  button {
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ff4d4d;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      background-color: #ff1a1a;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      font-size: 16px;
+      padding: 10px 20px;
+    }
+  }
+}

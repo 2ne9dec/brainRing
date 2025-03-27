@@ -1,35 +1,41 @@
 .tables-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 стола в ряду */
-  gap: 20px; /* Расстояние между столами */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
   width: 100%;
-  max-width: 930px; /* Ограничение ширины */
+  max-width: 930px;
 
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr); /* 3 стола в ряду */
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
   }
 
   @media (max-width: 992px) {
-    grid-template-columns: repeat(2, 1fr); /* 2 стола в ряду */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr; /* 1 стол в ряду */
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 }
 
 .table-container {
-  position: relative;
-  width: 100%; /* Занимает всю доступную ширину */
-  aspect-ratio: 1 / 1; /* Сохраняем квадратную форму */
-  background-color: #1a2537; /* Фон контейнера */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 95%;
+  aspect-ratio: 1 / 1;
+  background-color: #1a2537;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    transform: scale(1.05); /* Увеличиваем при наведении */
+    transform: scale(1.05);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   }
 }
@@ -55,11 +61,7 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.05),
-      rgba(255, 255, 255, 0)
-    );
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
     transform: rotate(45deg);
     animation: rotateShine 5s infinite linear;
   }
@@ -101,4 +103,46 @@
   height: 10px;
   background: linear-gradient(180deg, #ffffff1a, #ffffff0a);
   border-radius: 5px;
+}
+
+.table-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0px;
+
+  button {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  input {
+    width: 60px;
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    /* Убираем стрелки вверх и вниз */
+    -moz-appearance: textfield; /* Для Firefox */
+    appearance: textfield; /* Для современных браузеров */
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none; /* Убирает спиннеры в Chrome, Safari и других WebKit-браузерах */
+      margin: 0; /* Убирает отступы, связанные со спиннерами */
+    }
+  }
 }

@@ -1,10 +1,4 @@
-export const createGameControls = (
-  isTimerRunning,
-  startTimer,
-  stopTimer,
-  resetAllTables,
-  addLog
-) => {
+export const createGameControls = (isTimerRunning, startTimer, stopTimer, resetAllTables, addLog) => {
   // Логика кнопки "Старт"
   const handleStartButtonClick = () => {
     if (isTimerRunning) {

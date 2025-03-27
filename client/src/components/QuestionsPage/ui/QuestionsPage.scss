@@ -1,0 +1,83 @@
+.questions-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Занимает всю высоту экрана */
+  background: linear-gradient(145deg, #1a2537, #2c3e50); /* Градиентный фон */
+  color: #e0e0e0; /* Светлый текст */
+  padding: 20px;
+
+  /* Убираем белые полосы по бокам */
+  width: 100%;
+  max-width: 930px; /* Ограничение ширины */
+  margin: 0 auto; /* Центрирование по горизонтали */
+
+  h2 {
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #ff4d4d;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  p {
+    font-size: 35px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-align: center;
+    line-height: 1.1;
+    width: 100%;
+
+    /* Фиксированная высота для текста вопроса */
+    min-height: 200px; /* Минимальная высота */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto; /* Добавляем прокрутку, если текст не помещается */
+  }
+
+  .question-navigation-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Расстояние между кнопками */
+  }
+
+  button {
+    padding: 15px 30px; /* Увеличиваем размер кнопок */
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 12px 24px;
+    }
+  }
+}
