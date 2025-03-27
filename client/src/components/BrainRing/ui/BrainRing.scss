@@ -1,17 +1,17 @@
 .brain-ring-container {
   display: grid;
-  grid-template-columns: 450px 1fr; /* Левая панель (логи) и основной контент */
+  grid-template-columns: 450px 1fr;
   gap: 20px;
   padding: 20px;
   height: 100vh;
-  background-color: #0a192f; /* Темно-синий фон */
+  background-color: #0a192f;
 
   @media (max-width: 1200px) {
-    grid-template-columns: 300px 1fr; /* Уменьшаем ширину левой панели */
+    grid-template-columns: 300px 1fr;
   }
 
   @media (max-width: 992px) {
-    grid-template-columns: 1fr; /* На маленьких экранах левая панель исчезает */
+    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
   }
 }
@@ -21,20 +21,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(145deg, #1a2537, #2c3e50); /* Градиентный фон */
+  background: linear-gradient(145deg, #1a2537, #2c3e50);
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
   overflow-y: auto;
 
   @media (max-width: 992px) {
-    padding: 10px; /* Уменьшаем отступы на маленьких экранах */
+    padding: 10px;
   }
 }
 
 .navigation-button-container {
   display: flex;
-  justify-content: center; /* Центрирование кнопки по горизонтали */
-  margin-top: 20px; /* Отступ сверху */
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .navigation-button-container {

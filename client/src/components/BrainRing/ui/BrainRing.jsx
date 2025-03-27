@@ -1,5 +1,3 @@
-// BrainRing.js
-
 import React, { useState, useCallback, useMemo } from "react";
 import { useWebSocket } from "../../../hooks/useWebSocket";
 import { useTimer } from "../../Timer";
@@ -21,8 +19,6 @@ import "./BrainRing.scss";
 export const BrainRing = () => {
   const wsUrl = "ws://localhost:8080";
   const navigate = useNavigate();
-
-  // Загружаем currentQuestionId из localStorage или используем 1 по умолчанию
   const [logs, setLogs] = useState([]);
   const [currentQuestionId, setCurrentQuestionId] = useState(() => {
     const savedId = localStorage.getItem("currentQuestionId");
@@ -95,7 +91,7 @@ export const BrainRing = () => {
   // Переключение на страницу с вопросами
   const goToQuestionsPage = (id = currentQuestionId) => {
     setCurrentQuestionId(id);
-    localStorage.setItem("currentQuestionId", id); // Сохраняем в localStorage
+    localStorage.setItem("currentQuestionId", id);
     navigate(`/questions/${id}`);
   };
 
@@ -142,12 +138,12 @@ export const BrainRing = () => {
                   currentQuestionId={currentQuestionId}
                   onNextQuestion={(nextId) => {
                     setCurrentQuestionId(nextId);
-                    localStorage.setItem("currentQuestionId", nextId); // Сохраняем в localStorage
+                    localStorage.setItem("currentQuestionId", nextId);
                     navigate(`/questions/${nextId}`);
                   }}
                   onPreviousQuestion={(prevId) => {
                     setCurrentQuestionId(prevId);
-                    localStorage.setItem("currentQuestionId", prevId); // Сохраняем в localStorage
+                    localStorage.setItem("currentQuestionId", prevId);
                     navigate(`/questions/${prevId}`);
                   }}
                 />
