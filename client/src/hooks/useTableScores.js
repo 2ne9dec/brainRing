@@ -14,15 +14,12 @@ export const useTableScores = (numberOfTables) => {
     }, {});
   };
 
-  // Инициализация состояния счёта
   const [scores, setScores] = useState(loadScoresFromLocalStorage);
 
-  // Сохранение данных в localStorage при изменении счёта
   useEffect(() => {
     localStorage.setItem("tableScores", JSON.stringify(scores));
   }, [scores]);
 
-  // Увеличение счёта
   const incrementScore = (table) => {
     setScores((prevScores) => ({
       ...prevScores,
@@ -50,12 +47,15 @@ export const useTableScores = (numberOfTables) => {
   };
 
   const resetScores = () => {
-    const initialScores = Array.from({ length: numberOfTables }, (_, index) => index + 1).reduce((acc, table) => {
-      acc[table] = 0;
-      return acc;
-    }, {});
+    const initialScores = Array.from({ length: numberOfTables }, (_, index) => index + 1).reduce(
+      (acc, table) => {
+        acc[table] = 0;
+        return acc;
+      },
+      {}
+    );
     setScores(initialScores);
-    localStorage.removeItem("tableScores"); // Удаляем данные из localStorage
+    localStorage.removeItem("tableScores");
   };
 
   return { scores, incrementScore, decrementScore, updateScore, resetScores };

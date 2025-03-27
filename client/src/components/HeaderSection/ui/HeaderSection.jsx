@@ -8,7 +8,11 @@ export const HeaderSection = ({ onReset, onStartButtonClick, isTimerRunning, rem
       <h1>Брейн-ринг</h1>
       <div className="button-group">
         <ResetButton onClick={onReset} />
-        <StartButton isTimerRunning={isTimerRunning} remainingTime={remainingTime} onClick={onStartButtonClick} />
+        <StartButton
+          isTimerRunning={isTimerRunning}
+          remainingTime={remainingTime}
+          onClick={onStartButtonClick}
+        />
       </div>
     </div>
   );

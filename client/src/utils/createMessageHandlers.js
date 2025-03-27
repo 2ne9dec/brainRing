@@ -1,7 +1,13 @@
 import { playSound } from "./soundUtils";
 import clickSoundPath from "../shared/sound/click-sound.mp3";
 
-export const createMessageHandlers = (isTimerRunning, addLog, updateTableState, stopTimer, setHighlightedTables) => {
+export const createMessageHandlers = (
+  isTimerRunning,
+  addLog,
+  updateTableState,
+  stopTimer,
+  setHighlightedTables
+) => {
   // Основная функция для обработки всех типов сообщений
   const handleMessage = (data) => {
     try {
@@ -26,7 +32,9 @@ export const createMessageHandlers = (isTimerRunning, addLog, updateTableState, 
 
         case "initialState":
           // Обработка сообщений типа "initialState"
-          const updatedTables = data.tables.filter((t) => t.type === "highlight").map((t) => t.table);
+          const updatedTables = data.tables
+            .filter((t) => t.type === "highlight")
+            .map((t) => t.table);
 
           setHighlightedTables(updatedTables);
           break;

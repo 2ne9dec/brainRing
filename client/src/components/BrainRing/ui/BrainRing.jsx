@@ -1,9 +1,8 @@
-// BrainRing.js
-
 import React, { useState, useCallback, useMemo } from "react";
 import { useWebSocket } from "../../../hooks/useWebSocket";
 import { useTimer } from "../../Timer";
 import { LogPanel } from "../../LogPanel";
+import { useTableScores } from "../../../hooks/useTableScores";
 import { TablesGrid } from "../../TablesGrid";
 import { playSound } from "../../../utils/soundUtils";
 import { getFormattedTime } from "../../../utils/timeUtils";
@@ -11,7 +10,6 @@ import { HeaderSection } from "../../HeaderSection";
 import { resetAllTablesLogic } from "../../../utils/resetAllTablesLogic";
 import { createGameControls } from "../../../utils/createGameControls";
 import { createMessageHandlers } from "../../../utils/createMessageHandlers";
-import { useTableScores } from "../../../hooks/useTableScores";
 import { tableNames } from "../../../config/tableConfig";
 import { QuestionsPage } from "../../QuestionsPage";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -21,8 +19,6 @@ import "./BrainRing.scss";
 export const BrainRing = () => {
   const wsUrl = "ws://localhost:8080";
   const navigate = useNavigate();
-
-  // Загружаем currentQuestionId из localStorage или используем 1 по умолчанию
   const [logs, setLogs] = useState([]);
   const [currentQuestionId, setCurrentQuestionId] = useState(() => {
     const savedId = localStorage.getItem("currentQuestionId");
@@ -55,7 +51,7 @@ export const BrainRing = () => {
       });
 
       if (isHighlighted && isTimerRunning) {
-        addLog(`${tableNames[table]} подсветил стол`);
+        addLog(`${tableNames[table].team} подсветил стол "${tableNames[table].table}"`);
         playSound(clickSoundPath);
         navigate("/");
       }
@@ -95,7 +91,7 @@ export const BrainRing = () => {
   // Переключение на страницу с вопросами
   const goToQuestionsPage = (id = currentQuestionId) => {
     setCurrentQuestionId(id);
-    localStorage.setItem("currentQuestionId", id); // Сохраняем в localStorage
+    localStorage.setItem("currentQuestionId", id);
     navigate(`/questions/${id}`);
   };
 
@@ -142,12 +138,12 @@ export const BrainRing = () => {
                   currentQuestionId={currentQuestionId}
                   onNextQuestion={(nextId) => {
                     setCurrentQuestionId(nextId);
-                    localStorage.setItem("currentQuestionId", nextId); // Сохраняем в localStorage
+                    localStorage.setItem("currentQuestionId", nextId);
                     navigate(`/questions/${nextId}`);
                   }}
                   onPreviousQuestion={(prevId) => {
                     setCurrentQuestionId(prevId);
-                    localStorage.setItem("currentQuestionId", prevId); // Сохраняем в localStorage
+                    localStorage.setItem("currentQuestionId", prevId);
                     navigate(`/questions/${prevId}`);
                   }}
                 />

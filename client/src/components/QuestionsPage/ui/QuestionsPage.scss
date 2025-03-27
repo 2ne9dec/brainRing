@@ -3,15 +3,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Занимает всю высоту экрана */
-  background: linear-gradient(145deg, #1a2537, #2c3e50); /* Градиентный фон */
-  color: #e0e0e0; /* Светлый текст */
+  height: 100vh;
+  background: linear-gradient(145deg, #1a2537, #2c3e50);
+  color: #e0e0e0;
   padding: 20px;
-
-  /* Убираем белые полосы по бокам */
   width: 100%;
-  max-width: 930px; /* Ограничение ширины */
-  margin: 0 auto; /* Центрирование по горизонтали */
+  margin: 0 auto;
 
   h2 {
     font-size: 40px;
@@ -30,24 +27,22 @@
     text-align: center;
     line-height: 1.1;
     width: 100%;
-
-    /* Фиксированная высота для текста вопроса */
-    min-height: 200px; /* Минимальная высота */
+    min-height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: auto; /* Добавляем прокрутку, если текст не помещается */
+    overflow-y: auto;
   }
 
   .question-navigation-buttons {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px; /* Расстояние между кнопками */
+    gap: 15px;
   }
 
   button {
-    padding: 15px 30px; /* Увеличиваем размер кнопок */
+    padding: 15px 30px;
     font-size: 18px;
     border: none;
     border-radius: 5px;
