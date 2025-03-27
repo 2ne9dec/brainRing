@@ -51,7 +51,7 @@ export const BrainRing = () => {
       });
 
       if (isHighlighted && isTimerRunning) {
-        addLog(`${tableNames[table]} подсветил стол`);
+        addLog(`${tableNames[table].team} подсветил стол "${tableNames[table].table}"`);
         playSound(clickSoundPath);
         navigate("/");
       }
