@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useWebSocket } from "../../../hooks/useWebSocket";
-import { useTimer } from "../../Timer";
+import { useTimer } from "../../../hooks/useTimer";
 import { LogPanel } from "../../LogPanel";
 import { useTableScores } from "../../../hooks/useTableScores";
 import { TablesGrid } from "../../TablesGrid";
@@ -38,9 +38,7 @@ export const BrainRing = () => {
   }, []);
 
   // Управление счётом
-  const { scores, incrementScore, decrementScore, updateScore, resetScores } = useTableScores(
-    tables.length
-  );
+  const { scores, incrementScore, decrementScore, updateScore, resetScores } = useTableScores(tables.length);
 
   // Обновление состояния столов
   const updateTableState = useCallback(
@@ -61,14 +59,7 @@ export const BrainRing = () => {
 
   // Мемоизация обработчика сообщений WebSocket
   const handleMessage = useMemo(
-    () =>
-      createMessageHandlers(
-        isTimerRunning,
-        addLog,
-        updateTableState,
-        stopTimer,
-        setHighlightedTables
-      ),
+    () => createMessageHandlers(isTimerRunning, addLog, updateTableState, stopTimer, setHighlightedTables),
     [isTimerRunning, addLog, updateTableState, stopTimer, setHighlightedTables]
   );
 

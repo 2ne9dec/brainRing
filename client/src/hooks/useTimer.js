@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import startSoundPath from "../../../shared/sound/start-sound.mp3";
-import tickSoundPath from "../../../shared/sound/tick-sound.mp3";
+import startSoundPath from "../shared/sound/start-sound.mp3";
+import tickSoundPath from "../shared/sound/tick-sound.mp3";
 
 export const useTimer = () => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
