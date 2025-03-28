@@ -32,6 +32,13 @@ export const BrainRing = () => {
   // Логирование событий
   const addLog = useCallback((message) => {
     setLogs((prevLogs) => {
+      // Проверяем, есть ли уже такая запись в логах
+      const isDuplicate = prevLogs.some((log) => log.includes(message));
+      if (isDuplicate) {
+        // Если запись уже существует, не добавляем её снова
+        return prevLogs;
+      }
+      // Добавляем новую запись, ограничивая количество записей до 20
       const newLogs = [`[${getFormattedTime()}] ${message}`, ...prevLogs];
       return newLogs.slice(0, 20); // Оставляем только последние 20 записей
     });
