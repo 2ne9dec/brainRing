@@ -62,3 +62,25 @@ h1 {
   background-color: #f44336;
   color: #ffffff;
 }
+
+.goToLeaderBoard {
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #353cf0; /* Красный фон */
+  color: white;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background-color: #1920f1; /* Темно-красный при наведении */
+    transform: scale(1.05); /* Небольшое увеличение */
+  }
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+}

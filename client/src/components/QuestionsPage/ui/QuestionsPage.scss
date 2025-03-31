@@ -2,11 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   height: 100vh;
   background: linear-gradient(145deg, #1a2537, #2c3e50);
   color: #e0e0e0;
-  padding: 20px;
   width: 100%;
   margin: 0 auto;
 
@@ -25,13 +24,13 @@
     font-weight: 600;
     margin-bottom: 30px;
     text-align: center;
-    line-height: 1.1;
     width: 100%;
-    min-height: 200px;
+    line-height: 1.1;
+    min-height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: auto;
+    overflow-y: hidden;
   }
 
   .question-navigation-buttons {

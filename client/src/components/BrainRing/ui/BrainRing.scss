@@ -39,7 +39,8 @@
 
 .navigation-button-container {
   display: flex;
-  justify-content: center;
+  gap: 55px; /* Расстояние между кнопками */
+  justify-content: center; /* Центрирование по горизонтали */
   margin-top: 20px;
 
   button {
@@ -49,13 +50,13 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #ff4d4d;
+    background-color: #ff4d4d; /* Красный фон */
     color: white;
     transition: background-color 0.3s ease, transform 0.3s ease;
 
     &:hover {
-      background-color: #ff1a1a;
-      transform: scale(1.05);
+      background-color: #ff1a1a; /* Темно-красный при наведении */
+      transform: scale(1.05); /* Небольшое увеличение */
     }
 
     @media (max-width: 768px) {
