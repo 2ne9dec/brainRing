@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useWebSocket } from "../../../hooks/useWebSocket";
 import { useTimer } from "../../../hooks/useTimer";
 import { LogPanel } from "../../LogPanel";
@@ -14,6 +14,7 @@ import { QuestionsPage } from "../../QuestionsPage";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { TablesGrid } from "components/TablesGrid";
 import clickSoundPath from "../../../shared/sound/click-sound.mp3";
+import { useScores } from "../../../hooks/useScores";
 import "./BrainRing.scss";
 
 export const BrainRing = () => {
@@ -28,19 +29,7 @@ export const BrainRing = () => {
   const tables = Array.from({ length: 12 }, (_, index) => index + 1);
   const [highlightedTables, setHighlightedTables] = useState([]);
 
-  // Управление счетом
-  const [scores, setScores] = useState(() => {
-    const savedScores = localStorage.getItem("scores");
-    if (savedScores) {
-      return JSON.parse(savedScores);
-    }
-    // Инициализация из tableNames
-    const initialScores = {};
-    Object.keys(tableNames).forEach((table) => {
-      initialScores[table] = tableNames[table].scores || 0;
-    });
-    return initialScores;
-  });
+  const { scores, incrementScore, decrementScore, updateScore, resetScores } = useScores();
 
   const { isTimerRunning, remainingTime, startTimer, stopTimer } = useTimer();
 
@@ -54,21 +43,6 @@ export const BrainRing = () => {
       return newLogs.slice(0, 20);
     });
   }, []);
-
-  const updateScore = useCallback((table, newScore) => {
-    setScores((prevScores) => ({
-      ...prevScores,
-      [table]: Math.max(newScore, 0),
-    }));
-  }, []);
-
-  const incrementScore = useCallback((table) => updateScore(table, (scores[table] || 0) + 1), [scores, updateScore]);
-
-  const decrementScore = useCallback((table) => updateScore(table, (scores[table] || 0) - 1), [scores, updateScore]);
-
-  useEffect(() => {
-    localStorage.setItem("scores", JSON.stringify(scores));
-  }, [scores]);
 
   const updateTableState = useCallback(
     (table, isHighlighted) => {
@@ -94,14 +68,22 @@ export const BrainRing = () => {
   const memoizedHandleMessage = useCallback(handleMessage, [handleMessage]);
   const wsRef = useWebSocket(wsUrl, memoizedHandleMessage);
 
-  const resetAllTables = useCallback(() => {
-    resetAllTablesLogic(wsRef, setHighlightedTables, setLogs, addLog, setScores);
-  }, [wsRef, setHighlightedTables, setLogs, addLog, setScores]);
+  // Функция для сброса игры (подсветка столов и логи)
+  const resetGame = useCallback(() => {
+    resetAllTablesLogic(wsRef, setHighlightedTables, setLogs, addLog);
+  }, [wsRef, setHighlightedTables, setLogs, addLog]);
 
+  // Логика кнопки "Старт"
   const { handleStartButtonClick } = useMemo(
-    () => createGameControls(isTimerRunning, startTimer, stopTimer, resetAllTables, addLog),
-    [isTimerRunning, startTimer, stopTimer, resetAllTables, addLog]
+    () => createGameControls(isTimerRunning, startTimer, stopTimer, resetGame, addLog),
+    [isTimerRunning, startTimer, stopTimer, resetGame, addLog]
   );
+
+  // Логика кнопки "Сбросить всё"
+  const handleResetAll = useCallback(() => {
+    resetScores();
+    resetGame();
+  }, [resetScores, resetGame]);
 
   const goToQuestionsPage = (id = currentQuestionId) => {
     setCurrentQuestionId(id);
@@ -118,7 +100,7 @@ export const BrainRing = () => {
       <LogPanel logs={logs} />
       <div className="main-content">
         <HeaderSection
-          onReset={resetAllTables}
+          onReset={handleResetAll}
           onStartButtonClick={handleStartButtonClick}
           isTimerRunning={isTimerRunning}
           remainingTime={remainingTime}

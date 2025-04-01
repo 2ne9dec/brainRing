@@ -9,11 +9,17 @@ export const HeaderSection = ({ onReset, onStartButtonClick, isTimerRunning, rem
     navigate("/leaderboard");
   };
 
+  const goToTablesPage = () => {
+    navigate("/");
+  };
+
   return (
     <div className="header-section">
-      <h1>Брейн-ринг</h1>
+      <h1 onClick={goToTablesPage}>Брейн-ринг</h1>
       <div className="button-group">
-        <button className="goToLeaderBoard" onClick={goToLeaderboardPage}>Таблица лидеров</button>
+        <button className="goToLeaderBoard" onClick={goToLeaderboardPage}>
+          Таблица лидеров
+        </button>
         <ResetButton onClick={onReset} />
         <StartButton isTimerRunning={isTimerRunning} remainingTime={remainingTime} onClick={onStartButtonClick} />
       </div>

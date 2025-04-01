@@ -13,10 +13,14 @@
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
   color: #ffffff;
   margin: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   @media (max-width: 768px) {
     font-size: 24px;
@@ -25,7 +29,7 @@ h1 {
 
 .button-group {
   display: flex;
-  gap: 10px;
+  gap: 15px;
 
   @media (max-width: 768px) {
     flex-direction: row;
@@ -35,17 +39,16 @@ h1 {
 }
 
 .start-button,
-.reset-button {
+.reset-button,
+.goToLeaderBoard {
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    filter: brightness(1.1);
-  }
+  transition: background 0.3s ease, transform 0.3s ease;
 
   @media (max-width: 768px) {
     padding: 8px 16px;
@@ -55,28 +58,25 @@ h1 {
 
 .start-button {
   background-color: #4caf50;
-  color: #ffffff;
+
+  &:hover {
+    background-color: #388e3c;
+  }
 }
 
 .reset-button {
-  background-color: #f44336;
-  color: #ffffff;
+  background-color: #ff5233;
+
+  &:hover {
+    background-color: #d4442a;
+  }
 }
 
 .goToLeaderBoard {
-  padding: 12px 24px;
-  font-size: 18px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #353cf0; /* Красный фон */
-  color: white;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  background-color: #353cf0;
 
   &:hover {
-    background-color: #1920f1; /* Темно-красный при наведении */
-    transform: scale(1.05); /* Небольшое увеличение */
+    background-color: #3036d1;
   }
 
   @media (max-width: 768px) {

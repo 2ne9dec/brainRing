@@ -1,5 +1,4 @@
 import { memo } from "react";
-import "./StartButton.scss";
 
 export const StartButton = memo(({ isTimerRunning, remainingTime, onClick }) => {
   return (

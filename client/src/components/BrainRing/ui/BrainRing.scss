@@ -44,19 +44,19 @@
   margin-top: 20px;
 
   button {
-    padding: 12px 24px;
+    padding: 15px 30px;
     font-size: 18px;
-    font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    background-color: #ff4d4d; /* Красный фон */
-    color: white;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    background: linear-gradient(165deg, #ff4d4d, #ff5233, #fa725d);
+    color: #ffffff; /* Белый текст для контраста */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
     &:hover {
-      background-color: #ff1a1a; /* Темно-красный при наведении */
-      transform: scale(1.05); /* Небольшое увеличение */
+      transform: scale(1.05);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
     }
 
     @media (max-width: 768px) {

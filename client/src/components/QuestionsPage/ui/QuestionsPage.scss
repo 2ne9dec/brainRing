@@ -3,24 +3,39 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  padding: 20px 20px;
   height: 100vh;
-  background: linear-gradient(145deg, #1a2537, #2c3e50);
-  color: #e0e0e0;
-  width: 100%;
-  margin: 0 auto;
+  background: linear-gradient(145deg, #2c3e50, #202e44);
+  color: rgba(255, 255, 255, 0.9);
+  width: calc(100% + 200px);
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
 
   h2 {
-    font-size: 40px;
+    font-size: 32px;
     font-weight: 800;
-    margin-bottom: 10px;
     text-align: center;
-    color: #ff4d4d;
+    margin-bottom: 30px;
     text-transform: uppercase;
     letter-spacing: 2px;
+      background: linear-gradient(90deg, #ffe0e0, #98beff, #d2a8ff);
+    background-size: 200% auto; /* Анимация градиента */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientAnimation 5s ease-in-out infinite; /* Бесконечная анимация */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+    }
+
+    @media (min-width: 1200px) {
+      font-size: 40px;
+    }
   }
 
   p {
-    font-size: 38px;
     font-weight: 600;
     margin-bottom: 30px;
     text-align: center;
@@ -31,6 +46,15 @@
     align-items: center;
     justify-content: center;
     overflow-y: hidden;
+    color: rgb(216, 215, 215);
+
+    @media (max-width: 768px) {
+      font-size: 25px;
+    }
+
+    @media (min-width: 1200px) {
+      font-size: 40px;
+    }
   }
 
   .question-navigation-buttons {
@@ -38,40 +62,60 @@
     align-items: center;
     justify-content: center;
     gap: 15px;
-  }
 
-  button {
-    padding: 15px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    transition: background-color 0.3s ease;
+    button {
+      padding: 15px 30px;
+      font-size: 22px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: linear-gradient(145deg, #6a11cb, #2575fc); /* Сине-фиолетовый градиент */
+      color: #ffffff; /* Белый текст для контраста */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-    &:hover {
-      background-color: #0056b3;
-    }
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      }
 
-    &:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
+      &:disabled {
+        background: linear-gradient(145deg, #ccc, #aaa); /* Стиль для неактивных кнопок */
+        cursor: not-allowed;
+        box-shadow: none;
+        color: #555; /* Более темный текст для неактивных кнопок */
+      }
     }
   }
 
   @media (max-width: 768px) {
+    padding: 30px 20px; /* Меньшие отступы на маленьких экранах */
+    width: 100%; /* Ширина без увеличения */
+
     h2 {
       font-size: 24px;
     }
 
     p {
-      font-size: 16px;
+      font-size: 18px;
     }
 
     button {
       font-size: 16px;
       padding: 12px 24px;
     }
+  }
+}
+
+// Анимация переливашки для заголовка
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%; /* Начальная позиция градиента */
+  }
+  50% {
+    background-position: 100% 50%; /* Градиент перемещается вправо */
+  }
+  100% {
+    background-position: 0% 50%; /* Возвращение в исходное положение */
   }
 }
