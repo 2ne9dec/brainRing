@@ -52,7 +52,7 @@ export const BrainRing = () => {
       });
 
       if (isHighlighted && isTimerRunning) {
-        addLog(`${tableNames[table].team} подсветил стол "${tableNames[table].table}"`);
+        addLog(`${tableNames[table].team} подсветила "${tableNames[table].table}"`);
         playSound(clickSoundPath);
         navigate("/");
       }
