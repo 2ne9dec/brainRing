@@ -26,8 +26,13 @@ export const BrainRing = () => {
     return savedId ? parseInt(savedId, 10) : 1;
   });
 
+  // 🔑 КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: храним ТОЛЬКО ID первого нажатого стола
+  const [lockedTable, setLockedTable] = useState(() => {
+    const saved = localStorage.getItem("lockedTable");
+    return saved ? parseInt(saved, 10) : null;
+  });
+
   const tables = Array.from({ length: 12 }, (_, index) => index + 1);
-  const [highlightedTables, setHighlightedTables] = useState([]);
 
   const { scores, incrementScore, decrementScore, updateScore, resetScores } = useScores();
 
@@ -46,34 +51,40 @@ export const BrainRing = () => {
 
   const updateTableState = useCallback(
     (table, isHighlighted) => {
-      setHighlightedTables((prev) => {
-        const updatedTables = isHighlighted ? [...prev, table] : prev.filter((t) => t !== table);
-        return updatedTables;
-      });
+      // Если уже есть зафиксированный стол — игнорируем ВСЕ новые события
+      if (lockedTable !== null) {
+        return;
+      }
 
-      if (isHighlighted && isTimerRunning) {
+      // Только если ещё не фиксировано — разрешаем первое нажатие
+      if (isHighlighted) {
+        // Фиксируем первый стол
+        setLockedTable(table);
+        localStorage.setItem("lockedTable", table.toString());
         addLog(`${tableNames[table].team} подсветила "${tableNames[table].table}"`);
         playSound(clickSoundPath);
         navigate("/");
       }
     },
-    [addLog, isTimerRunning, navigate]
+    [lockedTable, addLog, navigate]
   );
 
   const handleMessage = useMemo(
-    () => createMessageHandlers(isTimerRunning, addLog, updateTableState, stopTimer, setHighlightedTables),
-    [isTimerRunning, addLog, updateTableState, stopTimer, setHighlightedTables]
+    () => createMessageHandlers(isTimerRunning, addLog, updateTableState, stopTimer, () => {}),
+    [isTimerRunning, addLog, updateTableState, stopTimer]
   );
 
   const memoizedHandleMessage = useCallback(handleMessage, [handleMessage]);
   const wsRef = useWebSocket(wsUrl, memoizedHandleMessage);
 
-  // Функция для сброса игры (подсветка столов и логи)
+  // Функция для сброса игры — сбрасывает фиксацию
   const resetGame = useCallback(() => {
-    resetAllTablesLogic(wsRef, setHighlightedTables, setLogs, addLog);
-  }, [wsRef, setHighlightedTables, setLogs, addLog]);
+    resetAllTablesLogic(wsRef, () => {}, setLogs, addLog); // 👈 не трогаем lockedTable — он сбрасывается ниже
+    localStorage.removeItem("lockedTable"); // 👈 ОБЯЗАТЕЛЬНО сбрасываем!
+    setLockedTable(null); // 👈 Сбрасываем в состоянии React
+  }, [wsRef, setLogs, addLog]);
 
-  // Логика кнопки "Старт"
+  // Логика кнопки "Старт" — сбрасывает фиксацию
   const { handleStartButtonClick } = useMemo(
     () => createGameControls(isTimerRunning, startTimer, stopTimer, resetGame, addLog),
     [isTimerRunning, startTimer, stopTimer, resetGame, addLog]
@@ -95,6 +106,9 @@ export const BrainRing = () => {
     navigate("/");
   };
 
+  // ✅ ВАЖНО: передаём в TablesGrid **только один зафиксированный стол**, если есть
+  const highlightedTables = lockedTable !== null ? [lockedTable] : [];
+
   return (
     <div className="brain-ring-container">
       <LogPanel logs={logs} />
@@ -112,7 +126,7 @@ export const BrainRing = () => {
               <>
                 <TablesGrid
                   tables={tables}
-                  highlightedTables={highlightedTables}
+                  highlightedTables={highlightedTables} // 👈 ТОЛЬКО фиксированный стол
                   scores={scores}
                   incrementScore={incrementScore}
                   decrementScore={decrementScore}
